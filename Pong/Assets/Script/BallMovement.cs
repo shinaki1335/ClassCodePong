@@ -11,6 +11,10 @@ public class BallMovement : MonoBehaviour
     //variable for borders
     private float xBorder = 7.5f; //variable for horizontal border
     private float yBorder = 4.5f; //variable for vertical border
+
+    //variable for move state
+    public bool xMove = true;
+    public bool yMove = true;
     
 
     // Start is called before the first frame update
@@ -24,29 +28,61 @@ public class BallMovement : MonoBehaviour
     void Update()
     {
         //horizontal movement
-        transform.position = new Vector2(transform.position.x + xSpeed, transform.position.y); //move right
+        if (xMove == true)
+        {
+            transform.position = new Vector2(transform.position.x + xSpeed, transform.position.y); //move right
+        }
+        else 
+        {
+            transform.position = new Vector2(transform.position.x - xSpeed, transform.position.y); //move left
+        }
+
 
         if (transform.position.x >= xBorder)
         {
-            xSpeed = -xSpeed; //make it go left
+            xMove = false; //make it go left
         }
 
         if(transform.position.x <= -xBorder)
         { 
-            xSpeed *= -1;
+            xMove = true;
         }
 
         //vertical movement
-        transform.position = new Vector2(transform.position.x, transform.position.y + ySpeed); //move up 
+        if (yMove == true)
+        {
+            transform.position = new Vector2(transform.position.x, transform.position.y + ySpeed); //move up
+        }
+        
+        else
+        {
+            transform.position = new Vector2(transform.position.x, transform.position.y - ySpeed);   //move down
+        }
         if (transform.position.y >= yBorder)
         { 
-            ySpeed *= -1;
+            yMove = false;
         }
 
         if (transform.position.y <= -yBorder) 
         {
-           ySpeed *= -1;
+           yMove = true;
         }
 
+    }
+
+    void OnCollisionEnter2D(Collision2D collision) //when a collision happens
+    {
+        Debug.Log("hit");
+        if (collision.collider.CompareTag("Player"))
+        {
+            if (xMove == true)
+            {
+                xMove = false;
+            }
+            else if (xMove == false)
+            {
+                xMove = true;
+            }
+        }
     }
 }
