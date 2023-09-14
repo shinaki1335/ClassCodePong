@@ -1,20 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BallMovement : MonoBehaviour
 {
-    //variable for speed
+    //variables for speed
     public float xSpeed = 0; //variable for horizontal speed
     public float ySpeed = 0; //variable for vertical speed
 
-    //variable for borders
+    //variables for borders
     private float xBorder = 7.5f; //variable for horizontal border
     private float yBorder = 4.5f; //variable for vertical border
 
-    //variable for move state
+    //variables for move state
     public bool xMove = true;
     public bool yMove = true;
+
+    //varialbles for score
+    int playerOneScore;
+    public Text scoreTextP1;
+    
+    int playerTwoScore;
+    public Text scoreTextP2;
     
 
     // Start is called before the first frame update
@@ -27,6 +35,7 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //horizontal movement
         if (xMove == true)
         {
@@ -41,11 +50,13 @@ public class BallMovement : MonoBehaviour
         if (transform.position.x >= xBorder)
         {
             xMove = false; //make it go left
+            playerOneScore++;
         }
 
         if(transform.position.x <= -xBorder)
         { 
             xMove = true;
+            playerTwoScore += 1;
         }
 
         //vertical movement
@@ -68,6 +79,9 @@ public class BallMovement : MonoBehaviour
            yMove = true;
         }
 
+        scoreTextP1.text = playerOneScore.ToString();
+
+        scoreTextP2.text = playerTwoScore.ToString();
     }
 
     void OnCollisionEnter2D(Collision2D collision) //when a collision happens
